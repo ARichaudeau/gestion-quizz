@@ -3,6 +3,8 @@ package fr.diginamic.console;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import fr.diginamic.exception.AjouterQuestionException;
+import fr.diginamic.exception.StockageExceptionMere;
 import fr.diginamic.model.Question;
 
 public class Menu {
@@ -28,7 +30,7 @@ public class Menu {
 		}
 	}
 	
-	public static void ajouterQuestion(ArrayList<Question> questionList) {
+	public static void ajouterQuestion(ArrayList<Question> questionList) throws AjouterQuestionException {
 		
 		System.out.println("Veuillez saisir l'intitulé de la question :");
 		Scanner questionUser = new Scanner(System.in);
@@ -36,6 +38,11 @@ public class Menu {
 		Question q = new Question(intitule);
 		System.out.println("Veuillez saisir le nombre de propositions :");
 		int nb = Integer.parseInt(questionUser.nextLine());
+		
+		if (nb < 2) {
+			throw new AjouterQuestionException("Le nombre de réponses doit être supérieur ou égal à 2");
+		}
+		
 		for (int i = 0; i < nb; i++) {
 			System.out.println("Veuillez saisir la proposition de réponse n° " + (i + 1));
 			String reponse = questionUser.nextLine();
@@ -93,7 +100,11 @@ public class Menu {
 		break;	
 		case (2) : 
 			System.out.println("Ajout d'une nouvelle question");
-			ajouterQuestion(questionList);
+			try {
+				ajouterQuestion(questionList);
+			} catch (StockageExceptionMere e) {
+				System.out.println(e.getMessage());
+			}
 			afficherMenu();
 		break;
 		case (3) :

@@ -7,7 +7,7 @@ public class QuizzAdminConsoleApp {
 	public static void main(String[] args) {
 		
 		Menu.afficherMenu();
-		Menu.choixUtilisateur();
+
 	}
 
 }
